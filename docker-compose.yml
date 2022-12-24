@@ -4,3 +4,7 @@ services:
     build: '.'
   traefik:
     image: traefik:v2.5
+networks:
+  default:
+    name: bridge-nerwork
+    external: true
