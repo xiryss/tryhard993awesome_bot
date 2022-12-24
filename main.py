@@ -10,7 +10,7 @@ async def process_start_command(message: types.Message):
     await message.reply("прив)")
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: types.Message):
-    answer = "список возможных команд:\n" + "/help - выводит это сообщение\n" + "/rnd - возвращает случайное число от 0 до 133722869\n" + "/gcd a b - возвращает наибольший общий делитель чисел a и b\n"
+    answer = "список возможных команд:\n" + "/help - выводит это сообщение\n" + "/rnd - возвращает случайное число от 0 до 133722869\n" + "/gcd a b - возвращает наибольший общий делитель чисел a и b\n" + "/getdiv a - возвращает делители числа а\n"
     await message.answer(answer)
 @dp.message_handler(commands=['rnd'])
 async def gen_random_number(msg: types.Message):
@@ -29,6 +29,23 @@ async def get_gcd(msg: types.Message):
     gg = gcd(int(arr[1]), int(arr[2]))
     answer= str(gg)
     await msg.answer(answer)
+
+@dp.message_handler(commands=['getdiv']) 
+async def get_divisors(msg: types.Message):
+    arr = msg.text.split(' ')
+    numb = int(arr[1])
+    divisors = []
+    answer = ""
+    for i in range(1,numb+1):
+        if(i*i > numb):
+            break
+        if(numb % i ==0):
+            divisors.append(i)
+            if(i*i!=numb):
+                divisors.append(numb//i)
+    divisors =sorted(divisors)
+    answer= str(divisors)
+    await msg.answer(answer)    
 @dp.message_handler()
 async def echo_message(msg: types.Message):
     await bot.send_message(msg.from_user.id, msg.text)
